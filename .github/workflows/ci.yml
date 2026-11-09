@@ -73,6 +73,8 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - run: make install-dev
       - run: uv run make lint
+      - name: Diagnose Ruff formatter output
+        run: uv run ruff format --diff src/skillspector/nodes/meta_analyzer.py || true
       - run: uv run make format-check
 
   test-unit:
