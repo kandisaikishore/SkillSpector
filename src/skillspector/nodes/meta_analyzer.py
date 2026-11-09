@@ -54,11 +54,11 @@ from skillspector.llm_analyzer_base import (
 from skillspector.llm_utils import run_async
 from skillspector.logging_config import get_logger
 from skillspector.models import Finding
-from skillspector.providers import NO_LLM_API_KEY_MESSAGE
 from skillspector.nodes.analyzers.pattern_defaults import (
     get_explanation,
     get_remediation,
 )
+from skillspector.providers import NO_LLM_API_KEY_MESSAGE
 from skillspector.state import (
     MetaAnalyzerResponse,
     SkillspectorState,
