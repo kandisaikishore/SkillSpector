@@ -979,9 +979,7 @@ def meta_analyzer(state: SkillspectorState) -> MetaAnalyzerResponse:
                 ],
                 "inference_usage": analyzer.inference_usage if analyzer is not None else [],
             }
-        missing_credentials = (
-            isinstance(e, ValueError) and str(e) == NO_LLM_API_KEY_MESSAGE
-        )
+        missing_credentials = isinstance(e, ValueError) and str(e) == NO_LLM_API_KEY_MESSAGE
         post_response_value_error = (
             isinstance(e, ValueError) and analyzer is not None and analyzer.response_received
         )
