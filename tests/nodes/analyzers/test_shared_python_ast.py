@@ -90,7 +90,7 @@ def test_preparsed_python_is_reused_by_all_ast_analyzers(
         "exec(payload)\n",
         encoding="utf-8",
     )
-    original_parse = python_ast.ast.parse
+    original_parse = python_ast.parse_python_source
     parse_calls = 0
 
     def count_parse(*args, **kwargs):
@@ -98,7 +98,7 @@ def test_preparsed_python_is_reused_by_all_ast_analyzers(
         parse_calls += 1
         return original_parse(*args, **kwargs)
 
-    monkeypatch.setattr(python_ast.ast, "parse", count_parse)
+    monkeypatch.setattr(python_ast, "parse_python_source", count_parse)
     state = build_context({"skill_path": str(tmp_path)})
 
     metadata = next(item for item in state["component_metadata"] if item["path"] == filename)
@@ -174,7 +174,7 @@ def test_ambiguous_python_source_is_analyzed_once_and_marks_coverage_partial(
         "exec(payload)\n",
         encoding="utf-8",
     )
-    original_parse = python_ast.ast.parse
+    original_parse = python_ast.parse_python_source
     parse_calls = 0
 
     def count_parse(*args, **kwargs):
@@ -182,7 +182,7 @@ def test_ambiguous_python_source_is_analyzed_once_and_marks_coverage_partial(
         parse_calls += 1
         return original_parse(*args, **kwargs)
 
-    monkeypatch.setattr(python_ast.ast, "parse", count_parse)
+    monkeypatch.setattr(python_ast, "parse_python_source", count_parse)
     state = build_context({"skill_path": str(tmp_path)})
 
     metadata = next(item for item in state["component_metadata"] if item["path"] == filename)
@@ -553,7 +553,7 @@ def test_uppercase_python_path_reuses_preparsed_ast_for_static_analyzers(
         "import os\nimport subprocess\nos.environ.copy()\nsubprocess.run(output)\n",
         encoding="utf-8",
     )
-    original_parse = python_ast.ast.parse
+    original_parse = python_ast.parse_python_source
     parse_calls = 0
 
     def count_parse(*args, **kwargs):
@@ -561,7 +561,7 @@ def test_uppercase_python_path_reuses_preparsed_ast_for_static_analyzers(
         parse_calls += 1
         return original_parse(*args, **kwargs)
 
-    monkeypatch.setattr(python_ast.ast, "parse", count_parse)
+    monkeypatch.setattr(python_ast, "parse_python_source", count_parse)
     state = build_context({"skill_path": str(tmp_path)})
 
     data_findings = static_patterns_data_exfiltration.node(state)["findings"]
@@ -589,7 +589,7 @@ def test_graph_scan_parses_python_once_before_parallel_analyzers(tmp_path, monke
         "exec(payload)\n",
         encoding="utf-8",
     )
-    original_parse = python_ast.ast.parse
+    original_parse = python_ast.parse_python_source
     parse_calls = 0
 
     def count_parse(*args, **kwargs):
@@ -597,7 +597,7 @@ def test_graph_scan_parses_python_once_before_parallel_analyzers(tmp_path, monke
         parse_calls += 1
         return original_parse(*args, **kwargs)
 
-    monkeypatch.setattr(python_ast.ast, "parse", count_parse)
+    monkeypatch.setattr(python_ast, "parse_python_source", count_parse)
 
     result = graph.invoke({"skill_path": str(tmp_path), "use_llm": False})
 
